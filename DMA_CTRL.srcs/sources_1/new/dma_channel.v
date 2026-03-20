@@ -33,7 +33,7 @@
 //   wr_dat_*  : data gửi đi
 //   wr_rsp_*  : phản hồi cuối burst
 // ============================================================
-`include "dma_defines.vh"
+`include "dma_define.vh"
 
 module dma_channel #(
     parameter ADDR_W       = 32,

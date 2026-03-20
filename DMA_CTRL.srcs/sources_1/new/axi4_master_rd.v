@@ -33,7 +33,7 @@
 // Timeout
 //   timeout_out : AR đang chờ quá TIMEOUT_W cycles
 // ============================================================
-`include "dma_defines.vh"
+`include "dma_define.vh"
 
 module axi4_master_rd #(
     parameter ADDR_W    = 32,

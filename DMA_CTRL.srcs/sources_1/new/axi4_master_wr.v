@@ -26,7 +26,7 @@
 //   timeout_aw : AW channel watchdog
 //   timeout_w  : W channel watchdog
 // ============================================================
-`include "dma_defines.vh"
+`include "dma_define.vh"
 
 module axi4_master_wr #(
     parameter ADDR_W    = 32,

@@ -30,7 +30,7 @@
 // AXI interface
 //   1 shared AXI master port — round-robin giữa N_CH kênh
 // ============================================================
-`include "dma_defines.vh"
+`include "dma_define.vh"
 
 module dma_engine #(
     parameter N_CH         = 4,
@@ -46,7 +46,7 @@ module dma_engine #(
     parameter TIMEOUT_W    = 10,
     parameter PERIPH_NUM_W = 5,
     parameter LEN_FIELD_W  = 16,
-    parameter APB_ADDR_W   = 13,
+    parameter APB_ADDR_W   = 14,
     // Giá trị default cho cfg_tokens và cfg_out_max của các kênh.
     // Phải là hằng số (không thể dùng expression trong Verilog-2001 port connection).
     // DEF_TOKENS ≤ 2^TOKEN_W - 1, DEF_OUTS ≤ 2^OUT_W - 1

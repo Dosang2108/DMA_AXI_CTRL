@@ -7,7 +7,7 @@
 //   2. Map tên port theo convention của SoC
 //
 // ============================================================
-`include "dma_defines.vh"
+`include "dma_define.vh"
 
 module dma_soc_wrap (
     // SoC clock/reset (tên theo convention dự án)
@@ -78,7 +78,7 @@ module dma_soc_wrap (
         .DEF_OUTS     (4),          // default 4 outstanding cmds/kênh
         .PERIPH_NUM_W (5),          // 32 peripheral slots
         .LEN_FIELD_W  (16),         // max transfer = 64KB
-        .APB_ADDR_W   (13)          // 4 channels × 2^12 = 2^14 → 13-bit địa chỉ
+        .APB_ADDR_W   (14)          // 4 channels × 2^12 = 2^14 → 14-bit địa chỉ
     ) u_dma_engine (
         .clk          (clk_bus),
         .rst_n        (rst_bus_n),
