@@ -53,9 +53,7 @@ module sync_fifo #(
     output wire [PTR_W:0]    count      // PTR_W+1 bits: 0..DEPTH
 );
 
-    // --------------------------------------------------------
-    // Kiểm tra nhất quán PTR_W giữa DEPTH bằng function
-    // --------------------------------------------------------
+    // Kiểm tra nhất quán PTR_W giữa DEPTH bằng functio
     function integer clog2;
         input integer value;
         integer i;

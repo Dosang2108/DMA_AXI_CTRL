@@ -1,0 +1,20 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_define.vh" into library xil_defaultlib
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/axi4_master_rd.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi4_master_rd
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/axi4_master_wr.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module axi4_master_wr
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dma_channel
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_engine.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dma_engine
+WARNING: [VRFC 10-3380] identifier 'rd_cmd_ready_top' is used before its declaration [D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_engine.v:484]
+WARNING: [VRFC 10-3380] identifier 'wr_cmd_ready_top' is used before its declaration [D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_engine.v:637]
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module shift_reg
+INFO: [VRFC 10-311] analyzing module timeout_cnt
+INFO: [VRFC 10-311] analyzing module onehot_mux
+INFO: [VRFC 10-311] analyzing module rr_arbiter
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module sync_fifo
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sim_1/new/dma_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_dma_engine

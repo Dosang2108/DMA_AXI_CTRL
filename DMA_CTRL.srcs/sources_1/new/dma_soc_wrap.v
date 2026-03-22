@@ -18,7 +18,7 @@ module dma_soc_wrap (
     input  wire         s_apb_psel,
     input  wire         s_apb_penable,
     input  wire         s_apb_pwrite,
-    input  wire [12:0]  s_apb_paddr,   // 13-bit: 4 kênh × 0x1000
+    input  wire [13:0]  s_apb_paddr,   // 14-bit: 4 kênh × 2^12 = 2^14
     input  wire [31:0]  s_apb_pwdata,
     output wire [31:0]  s_apb_prdata,
     output wire         s_apb_pslverr,

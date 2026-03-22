@@ -82,7 +82,10 @@ module axi4_master_wr #(
     output wire              BREADY
 );
 
+    // --------------------------------------------------------
     // localparam
+    // function phải khai báo TRƯỚC localparam (Verilog-2001)
+    // --------------------------------------------------------
     function integer clog2_fn;
         input integer v;
         integer i;
@@ -120,14 +123,15 @@ module axi4_master_wr #(
     end
 
     // W channel — beat counter
-    // Khi AW accepted -> capture len -> phát W beats
-    // FIFO lưu {len, id} để W channel dùng sau khi AW accepted
-    localparam WF_W = LEN_W + ID_W;
+    // Khi AW accepted -> push {len,id} vào wf FIFO -> W channel bắt đầu gửi data
+    localparam WF_W   = LEN_W + ID_W;
+    localparam WF_CNT = CMD_D_W + 1;
 
     wire              wf_push  = AWVALID & AWREADY;
     wire              wf_pop;
     wire              wf_empty, wf_full;
     wire [WF_W-1:0]   wf_rdata;
+    wire [WF_CNT-1:0] wf_count;
 
     sync_fifo #(
         .DATA_W    (WF_W),
@@ -147,33 +151,46 @@ module axi4_master_wr #(
         .empty       (wf_empty),
         .almost_full (),
         .almost_empty(),
-        .count       ()
+        .count       (wf_count)
     );
 
     wire [LEN_W-1:0] cur_len = wf_rdata[WF_W-1 : ID_W];
     wire [ID_W-1:0]  cur_id  = wf_rdata[ID_W-1  : 0];
 
-    // Beat counter
     reg [LEN_W-1:0]  beat_cnt;
     reg              w_active;
+    reg              w_reload;  // 1-cycle state: đợi FIFO rd_ptr advance
 
     wire w_beat = WVALID & WREADY;
     wire w_last = w_beat & WLAST;
 
-    assign wf_pop = w_last;   // giải phóng FIFO slot sau burst xong
+    assign wf_pop = w_last;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             w_active <= 1'b0;
+            w_reload <= 1'b0;
             beat_cnt <= {LEN_W{1'b0}};
         end else begin
-            if (!w_active & !wf_empty & din_valid) begin
-                // Bắt đầu burst mới
+            // w_reload: 1 cycle sau w_last khi còn burst tiếp theo
+            // Cycle này rd_ptr đã advance → cur_len hợp lệ
+            if (w_reload) begin
+                w_reload <= 1'b0;
+                if (!wf_empty) begin
+                    w_active <= 1'b1;
+                    beat_cnt <= cur_len;
+                end
+            end else if (!w_active && !wf_empty) begin
+                // Bắt đầu burst đầu tiên
                 w_active <= 1'b1;
                 beat_cnt <= cur_len;
             end else if (w_active & w_last) begin
                 w_active <= 1'b0;
                 beat_cnt <= {LEN_W{1'b0}};
+                // Nếu còn burst tiếp theo: vào w_reload để đợi FIFO advance
+                // wf_count > 1 nghĩa là sau pop vẫn còn ≥1 entry
+                if (wf_count > {{(WF_CNT-1){1'b0}}, 1'b1})
+                    w_reload <= 1'b1;
             end else if (w_active & w_beat) begin
                 beat_cnt <= beat_cnt - 1'b1;
             end
@@ -181,10 +198,10 @@ module axi4_master_wr #(
     end
 
     // W outputs
-    assign WVALID  = w_active & din_valid;
-    assign WDATA   = din_data;
-    assign WLAST   = w_active & (beat_cnt == {LEN_W{1'b0}});
-    assign WSTRB   = {`AXI_STRB_W{1'b1}};   // full-width write
+    assign WVALID    = w_active & din_valid;
+    assign WDATA     = din_data;
+    assign WLAST     = w_active & (beat_cnt == {LEN_W{1'b0}});
+    assign WSTRB     = {`AXI_STRB_W{1'b1}};   // full-width write
     assign din_ready = w_active & WREADY;
 
     // B channel

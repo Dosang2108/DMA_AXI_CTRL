@@ -203,3 +203,278 @@ INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/xilinx/Vivado/2024.1/data/ip'.
 INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.runs/impl_1/dma_soc_wrap_drc_opted.rpt.
+report_drc completed successfully
+report_drc: Time (s): cpu = 00:00:38 ; elapsed = 00:00:48 . Memory (MB): peak = 3812.449 ; gain = 947.434
+generate_parallel_reports: Time (s): cpu = 00:00:38 ; elapsed = 00:00:48 . Memory (MB): peak = 3812.449 ; gain = 947.434
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.010 . Memory (MB): peak = 3812.449 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.runs/impl_1/dma_soc_wrap_opt.dcp' has been generated.
+Command: place_design
+Attempting to get a license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-83] Releasing license: Implementation
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 2 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 2 CPUs
+
+Starting Placer Task
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3812.449 ; gain = 0.000
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: 150c49be9
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.015 . Memory (MB): peak = 3812.449 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3812.449 ; gain = 0.000
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+ERROR: [Place 30-58] IO placement is infeasible. Number of unplaced IO Ports (200) is greater than number of available pins (189).
+The following are banks with available pins: 
+ IO Group: 1 with : SioStd: LVCMOS18   VCCO = 1.8 Termination: 0  TermDir:  Out  RangeId: 2 Drv: 12  has only 189 sites available on device, but needs 197 sites.
+	Term: m_axi_araddr[0]
+	Term: m_axi_araddr[1]
+	Term: m_axi_araddr[2]
+	Term: m_axi_araddr[3]
+	Term: m_axi_araddr[4]
+	Term: m_axi_araddr[5]
+	Term: m_axi_araddr[6]
+	Term: m_axi_araddr[7]
+	Term: m_axi_araddr[8]
+	Term: m_axi_araddr[9]
+	Term: m_axi_araddr[10]
+	Term: m_axi_araddr[11]
+	Term: m_axi_araddr[12]
+	Term: m_axi_araddr[13]
+	Term: m_axi_araddr[14]
+	Term: m_axi_araddr[15]
+	Term: m_axi_araddr[16]
+	Term: m_axi_araddr[17]
+	Term: m_axi_araddr[18]
+	Term: m_axi_araddr[19]
+	Term: m_axi_araddr[20]
+	Term: m_axi_araddr[21]
+	Term: m_axi_araddr[22]
+	Term: m_axi_araddr[23]
+	Term: m_axi_araddr[24]
+	Term: m_axi_araddr[25]
+	Term: m_axi_araddr[26]
+	Term: m_axi_araddr[27]
+	Term: m_axi_araddr[28]
+	Term: m_axi_araddr[29]
+	Term: m_axi_araddr[30]
+	Term: m_axi_araddr[31]
+	Term: m_axi_awaddr[0]
+	Term: m_axi_awaddr[1]
+	Term: m_axi_awaddr[2]
+	Term: m_axi_awaddr[3]
+	Term: m_axi_awaddr[4]
+	Term: m_axi_awaddr[5]
+	Term: m_axi_awaddr[6]
+	Term: m_axi_awaddr[7]
+	Term: m_axi_awaddr[8]
+	Term: m_axi_awaddr[9]
+	Term: m_axi_awaddr[10]
+	Term: m_axi_awaddr[11]
+	Term: m_axi_awaddr[12]
+	Term: m_axi_awaddr[13]
+	Term: m_axi_awaddr[14]
+	Term: m_axi_awaddr[15]
+	Term: m_axi_awaddr[16]
+	Term: m_axi_awaddr[17]
+	Term: m_axi_awaddr[18]
+	Term: m_axi_awaddr[19]
+	Term: m_axi_awaddr[20]
+	Term: m_axi_awaddr[21]
+	Term: m_axi_awaddr[22]
+	Term: m_axi_awaddr[23]
+	Term: m_axi_awaddr[24]
+	Term: m_axi_awaddr[25]
+	Term: m_axi_awaddr[26]
+	Term: m_axi_awaddr[27]
+	Term: m_axi_awaddr[28]
+	Term: m_axi_awaddr[29]
+	Term: m_axi_awaddr[30]
+	Term: m_axi_awaddr[31]
+	Term: m_axi_wdata[0]
+	Term: m_axi_wdata[1]
+	Term: m_axi_wdata[2]
+	Term: m_axi_wdata[3]
+	Term: m_axi_wdata[4]
+	Term: m_axi_wdata[5]
+	Term: m_axi_wdata[6]
+	Term: m_axi_wdata[7]
+	Term: m_axi_wdata[8]
+	Term: m_axi_wdata[9]
+	Term: m_axi_wdata[10]
+	Term: m_axi_wdata[11]
+	Term: m_axi_wdata[12]
+	Term: m_axi_wdata[13]
+	Term: m_axi_wdata[14]
+	Term: m_axi_wdata[15]
+	Term: m_axi_wdata[16]
+	Term: m_axi_wdata[17]
+	Term: m_axi_wdata[18]
+	Term: m_axi_wdata[19]
+	Term: m_axi_wdata[20]
+	Term: m_axi_wdata[21]
+	Term: m_axi_wdata[22]
+	Term: m_axi_wdata[23]
+	Term: m_axi_wdata[24]
+	Term: m_axi_wdata[25]
+	Term: m_axi_wdata[26]
+	Term: m_axi_wdata[27]
+	Term: m_axi_wdata[28]
+	Term: m_axi_wdata[29]
+	Term: m_axi_wdata[30]
+	Term: m_axi_wdata[31]
+	Term: s_apb_prdata[0]
+	Term: s_apb_prdata[1]
+	Term: s_apb_prdata[2]
+	Term: s_apb_prdata[3]
+	Term: s_apb_prdata[4]
+	Term: s_apb_prdata[5]
+	Term: s_apb_prdata[6]
+	Term: s_apb_prdata[7]
+	Term: s_apb_prdata[8]
+	Term: s_apb_prdata[9]
+	Term: s_apb_prdata[10]
+	Term: s_apb_prdata[11]
+	Term: s_apb_prdata[12]
+	Term: s_apb_prdata[13]
+	Term: s_apb_prdata[14]
+	Term: s_apb_prdata[15]
+	Term: s_apb_prdata[16]
+	Term: s_apb_prdata[17]
+	Term: s_apb_prdata[18]
+	Term: s_apb_prdata[19]
+	Term: s_apb_prdata[20]
+	Term: s_apb_prdata[21]
+	Term: s_apb_prdata[22]
+	Term: s_apb_prdata[23]
+	Term: s_apb_prdata[24]
+	Term: s_apb_prdata[25]
+	Term: s_apb_prdata[26]
+	Term: s_apb_prdata[27]
+	Term: s_apb_prdata[28]
+	Term: s_apb_prdata[29]
+	Term: s_apb_prdata[30]
+	Term: s_apb_prdata[31]
+	Term: periph_dma_clr[1]
+	Term: periph_dma_clr[2]
+	Term: periph_dma_clr[3]
+	Term: periph_dma_clr[4]
+	Term: periph_dma_clr[5]
+	Term: periph_dma_clr[6]
+	Term: periph_dma_clr[7]
+	Term: periph_dma_clr[8]
+	Term: periph_dma_clr[9]
+	Term: periph_dma_clr[10]
+	Term: periph_dma_clr[11]
+	Term: periph_dma_clr[12]
+	Term: periph_dma_clr[13]
+	Term: periph_dma_clr[14]
+	Term: periph_dma_clr[15]
+	Term: periph_dma_clr[16]
+	Term: periph_dma_clr[17]
+	Term: periph_dma_clr[18]
+	Term: periph_dma_clr[19]
+	Term: periph_dma_clr[20]
+	Term: periph_dma_clr[21]
+	Term: periph_dma_clr[22]
+	Term: periph_dma_clr[23]
+	Term: periph_dma_clr[24]
+	Term: periph_dma_clr[25]
+	Term: periph_dma_clr[26]
+	Term: periph_dma_clr[27]
+	Term: periph_dma_clr[28]
+	Term: periph_dma_clr[29]
+	Term: periph_dma_clr[30]
+	Term: periph_dma_clr[31]
+	Term: dma_irq[0]
+	Term: dma_irq[1]
+	Term: dma_irq[2]
+	Term: dma_irq[3]
+	Term: m_axi_arid[0]
+	Term: m_axi_arid[1]
+	Term: m_axi_arid[2]
+	Term: m_axi_arid[3]
+	Term: m_axi_arlen[0]
+	Term: m_axi_arlen[1]
+	Term: m_axi_arlen[2]
+	Term: m_axi_arlen[3]
+	Term: m_axi_awid[0]
+	Term: m_axi_awid[1]
+	Term: m_axi_awid[2]
+	Term: m_axi_awid[3]
+	Term: m_axi_awlen[0]
+	Term: m_axi_awlen[1]
+	Term: m_axi_awlen[2]
+	Term: m_axi_awlen[3]
+	Term: m_axi_wstrb[0]
+	Term: m_axi_wstrb[1]
+	Term: m_axi_wstrb[2]
+	Term: m_axi_wstrb[3]
+	Term: m_axi_arsize[0]
+	Term: m_axi_arsize[1]
+	Term: m_axi_arsize[2]
+	Term: m_axi_awsize[0]
+	Term: m_axi_awsize[1]
+	Term: m_axi_awsize[2]
+	Term: m_axi_arvalid
+	Term: m_axi_awvalid
+	Term: m_axi_bready
+	Term: m_axi_rready
+	Term: m_axi_wlast
+	Term: m_axi_wvalid
+	Term: s_apb_pready
+	Term: s_apb_pslverr
+
+
+Resolution: Consider using Xilinx part with greater number of IO pins
+ERROR: [Place 30-374] IO placer failed to find a solution
+Below is the partial placement that can be analyzed to see if any constraint modifications will make the IO placement problem easier to solve.
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                                     IO Placement : Bank Stats                                                                           |
++----+-------+-------+------------------------------------------------------------------------+------------------------------------------+--------+--------+--------+-----+
+| Id | Pins  | Terms |                               Standards                                |                IDelayCtrls               |  VREF  |  VCCO  |   VR   | DCI |
++----+-------+-------+------------------------------------------------------------------------+------------------------------------------+--------+--------+--------+-----+
+|  0 |     0 |     0 |                                                                        |                                          |        |        |        |     |
+| 43 |    24 |     0 |                                                                        |                                          |        |        |        |     |
+| 44 |    24 |     0 |                                                                        |                                          |        |        |        |     |
+| 45 |    22 |     0 |                                                                        |                                          |        |        |        |     |
+| 46 |     0 |     0 |                                                                        |                                          |        |        |        |     |
+| 64 |    43 |     0 |                                                                        |                                          |        |        |        |     |
+| 65 |    43 |     0 |                                                                        |                                          |        |        |        |     |
+| 66 |    33 |     0 |                                                                        |                                          |        |        |        |     |
++----+-------+-------+------------------------------------------------------------------------+------------------------------------------+--------+--------+--------+-----+
+|    |   189 |     0 |                                                                        |                                          |        |        |        |     |
++----+-------+-------+------------------------------------------------------------------------+------------------------------------------+--------+--------+--------+-----+
+
+IO Placement:
++--------+----------------------+-----------------+----------------------+----------------------+----------------------+
+| BankId |             Terminal | Standard        | Site                 | Pin                  | Attributes           |
++--------+----------------------+-----------------+----------------------+----------------------+----------------------+
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: 194ead324
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 3812.449 ; gain = 0.000
+Phase 1 Placer Initialization | Checksum: 194ead324
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 3812.449 ; gain = 0.000
+ERROR: [Place 30-99] Placer failed with error: 'IO Clock Placer failed'
+Please review all ERROR, CRITICAL WARNING, and WARNING messages during placement to understand the cause for failure.
+Ending Placer Task | Checksum: 194ead324
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 3812.449 ; gain = 0.000
+42 Infos, 0 Warnings, 0 Critical Warnings and 4 Errors encountered.
+place_design failed
+ERROR: [Common 17-69] Command failed: Placer could not place all instances
+INFO: [Common 17-206] Exiting Vivado at Fri Mar 20 15:58:58 2026...

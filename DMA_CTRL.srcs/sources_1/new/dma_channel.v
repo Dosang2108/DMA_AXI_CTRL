@@ -39,6 +39,8 @@ module dma_channel #(
     parameter ADDR_W       = 32,
     parameter LEN_W        = 4,
     parameter ID_W         = 4,
+    parameter N_CH_W       = 2,    // bits for channel index = clog2(N_CH)
+    parameter CH_IDX       = 0,    // this channel's index — embedded in AXI ID top bits
     parameter FIFO_DEPTH   = 16,
     parameter MAX_BURST    = 64,
     parameter BURST_W      = 7,
@@ -92,7 +94,7 @@ module dma_channel #(
     input  wire [ID_W-1:0]   rd_rsp_id,
     input  wire [1:0]        rd_rsp_err,
 
-    //  WR command (-> axi4_master_wr) 
+    //  WR command (→ axi4_master_wr) ─
     output wire              wr_cmd_valid,
     input  wire              wr_cmd_ready,
     output wire [ADDR_W-1:0] wr_cmd_addr,
@@ -100,7 +102,7 @@ module dma_channel #(
     output wire [2:0]        wr_cmd_size,
     output wire [ID_W-1:0]   wr_cmd_id,
 
-    //  WR data (-> axi4_master_wr) 
+    //  WR data (→ axi4_master_wr) 
     output wire                    wr_dat_valid,
     input  wire                    wr_dat_ready,
     output wire [`AXI_DATA_W-1:0]  wr_dat_data,
@@ -116,11 +118,8 @@ module dma_channel #(
     input  wire              timeout_wr_w
 );
 
-    // localparam
-    localparam BYTES_PER_BEAT = `AXI_BYTES;     // = 4 cho 32-bit
-    // FIFO phải là lũy thừa 2 — dùng generate để kiểm tra?
-    // ASSERT: FIFO_DEPTH phải là lũy thừa 2
-
+   // localparam
+   localparam BYTES_PER_BEAT = `AXI_BYTES;     // = 4 cho 32-bit
     function integer clog2_fn;
         input integer v;
         integer i;
@@ -130,8 +129,6 @@ module dma_channel #(
                 clog2_fn = clog2_fn + 1;
         end
     endfunction
-
-    // BEAT_BITS = log2(BYTES_PER_BEAT) = 2 cho 32-bit bus
     localparam BEAT_BITS  = clog2_fn(BYTES_PER_BEAT);  // = 2
 
     // FIFO_CNT_W: phải bằng PTR_W+1 của sync_fifo.
@@ -141,8 +138,8 @@ module dma_channel #(
     localparam FIFO_PTR_W = clog2_fn(FIFO_DEPTH);      // = PTR_W trong sync_fifo
     localparam FIFO_CNT_W = FIFO_PTR_W + 1;            // = width của count port
 
-    // State machine
-    localparam [2:0]
+   // State machine
+   localparam [2:0]
         ST_IDLE  = 3'd0,
         ST_RUN   = 3'd1,
         ST_DRAIN = 3'd2,   // rd xong, đợi FIFO drain + wr xong
@@ -150,8 +147,8 @@ module dma_channel #(
 
     reg [2:0] state;
 
-    // Address và remaining counters
-    reg [ADDR_W-1:0]      rd_addr, wr_addr;
+   // Address và remaining counters
+   reg [ADDR_W-1:0]      rd_addr, wr_addr;
     reg [LEN_FIELD_W-1:0] rd_remain, wr_remain;
 
     // Tính burst size thực tế (min của remain và cfg_burst_max)
@@ -178,8 +175,8 @@ module dma_channel #(
         ? {LEN_W{1'b0}}
         : wr_burst_bytes[BURST_W-1:BEAT_BITS] - 1'b1;
 
-    // Outstanding command counters
-    reg [OUT_W-1:0] rd_outs, wr_outs;
+   // Outstanding command counters
+   reg [OUT_W-1:0] rd_outs, wr_outs;
 
     wire rd_cmd_fire = rd_cmd_valid & rd_cmd_ready;
     wire wr_cmd_fire = wr_cmd_valid & wr_cmd_ready;
@@ -200,12 +197,11 @@ module dma_channel #(
         end
     end
 
-    // Token counter — rate-match RD vs WR để tránh FIFO overflow
+   // Token counter — rate-match RD vs WR để tránh FIFO overflow
     // Mỗi token = 1 phép RD burst chưa được WR xử lý
-    reg [TOKEN_W-1:0] tokens;
-
+   reg [TOKEN_W-1:0] tokens;
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n || state == ST_IDLE)
+        if (!rst_n || (state == ST_IDLE && !start))
             tokens <= cfg_tokens;
         else if (rd_cmd_fire & ~wr_rsp_valid)
             tokens <= (tokens == {TOKEN_W{1'b0}}) ? {TOKEN_W{1'b0}} : tokens - 1'b1;
@@ -215,14 +211,9 @@ module dma_channel #(
 
     wire token_ok = (tokens != {TOKEN_W{1'b0}}) | (wr_remain == {LEN_FIELD_W{1'b0}});
 
-    // Peripheral ready (registered 1 cycle)
-    // bit 0 của periph_req_ext = memory = selalu 1
-    wire [31:0] periph_req_ext = {periph_req, 1'b1};
-    reg         periph_rdy;
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) periph_rdy <= 1'b0;
-        else periph_rdy <= periph_req_ext[cfg_periph_num];
-    end
+   // Peripheral ready signal
+   wire [31:0] periph_req_ext = {periph_req, 1'b1};
+    wire        periph_rdy     = periph_req_ext[cfg_periph_num];
 
     // periph_clr: pulse 1 cycle sau mỗi rd burst
     // Bit trong periph_clr[31:1] tương ứng periph_num 1..31
@@ -242,8 +233,8 @@ module dma_channel #(
         end
     end
 
-    // Internal data FIFO
-    wire              fifo_wr_en  = rd_dat_valid & rd_dat_ready;
+   // Internal data FIFO
+   wire              fifo_wr_en  = rd_dat_valid & rd_dat_ready;
     wire              fifo_rd_en  = wr_dat_valid & wr_dat_ready;
     wire              fifo_full, fifo_empty, fifo_afull;
     wire [`AXI_DATA_W-1:0] fifo_rdata;
@@ -273,8 +264,8 @@ module dma_channel #(
         .count       (fifo_count)
     );
 
-    // State machine
-    always @(posedge clk or negedge rst_n) begin
+   // State machine
+   always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state     <= ST_IDLE;
             rd_addr   <= {ADDR_W{1'b0}};
@@ -318,20 +309,33 @@ module dma_channel #(
                                ? `DMA_ERR_SLVERR : `DMA_ERR_DECERR;
                     if (timeout_rd | timeout_wr_aw | timeout_wr_w)
                         err <= `DMA_ERR_TIMEOUT;
-
-                    // Lỗi → dừng ngay
                     if (err != `DMA_ERR_NONE)
                         state <= ST_DRAIN;
-
-                    // Hết RD → chờ drain
-                    if (rd_remain == {LEN_FIELD_W{1'b0}} && !rd_cmd_fire)
+                    if ((rd_remain == {LEN_FIELD_W{1'b0}} && !rd_cmd_fire) ||
+                        (rd_cmd_fire &&
+                         (rd_remain == {{(LEN_FIELD_W-BURST_W){1'b0}}, rd_burst_bytes})))
                         state <= ST_DRAIN;
                 end
 
                 ST_DRAIN: begin
-                    // Đợi FIFO empty và WR xong
+                    if (wr_cmd_fire) begin
+                        if (cfg_dst_incr)
+                            wr_addr <= wr_addr + {{(ADDR_W-BURST_W){1'b0}}, wr_burst_bytes};
+                        wr_remain <= wr_remain - {{(LEN_FIELD_W-BURST_W){1'b0}}, wr_burst_bytes};
+                    end
+                    if (rd_rsp_valid & (rd_rsp_err != `AXI_RESP_OKAY))
+                        err <= (rd_rsp_err == `AXI_RESP_SLVERR)
+                               ? `DMA_ERR_SLVERR : `DMA_ERR_DECERR;
+                    if (wr_rsp_valid & (wr_rsp_err != `AXI_RESP_OKAY))
+                        err <= (wr_rsp_err == `AXI_RESP_SLVERR)
+                               ? `DMA_ERR_SLVERR : `DMA_ERR_DECERR;
+                    if (timeout_rd | timeout_wr_aw | timeout_wr_w)
+                        err <= `DMA_ERR_TIMEOUT;
+                    // Điều kiện hoàn thành bình thường: FIFO empty, WR xong
                     if (fifo_empty && wr_outs == {OUT_W{1'b0}} &&
                         wr_remain == {LEN_FIELD_W{1'b0}})
+                        state <= ST_DONE;
+                    if (timeout_rd | timeout_wr_aw | timeout_wr_w)
                         state <= ST_DONE;
                 end
 
@@ -345,10 +349,15 @@ module dma_channel #(
         end
     end
 
-    // RD command generation
-    reg [ID_W-1:0] rd_id_cnt;   // burst sequence counter
+   // RD command generation
+   // SEQ_W: bits available for burst sequence within this channel
+    // ID = {CH_IDX[N_CH_W-1:0], seq[SEQ_W-1:0]}
+    // This ensures IDs from different channels never collide.
+    localparam SEQ_W = ID_W - N_CH_W;
+
+    reg [SEQ_W-1:0] rd_id_cnt;   // burst sequence counter (SEQ_W bits only)
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n || state == ST_IDLE) rd_id_cnt <= {ID_W{1'b0}};
+        if (!rst_n || state == ST_IDLE) rd_id_cnt <= {SEQ_W{1'b0}};
         else if (rd_cmd_fire) rd_id_cnt <= rd_id_cnt + 1'b1;
     end
 
@@ -362,13 +371,13 @@ module dma_channel #(
     assign rd_cmd_addr  = rd_addr;
     assign rd_cmd_len   = rd_burst_len;
     assign rd_cmd_size  = `AXI_SIZE_4B;
-    assign rd_cmd_id    = rd_id_cnt;
+    assign rd_cmd_id    = {CH_IDX[N_CH_W-1:0], rd_id_cnt};   // top bits = channel, low bits = seq
 
-    // WR command generation
+   // WR command generation
     // Chờ FIFO đủ data cho 1 burst trước khi phát AW
-    reg [ID_W-1:0] wr_id_cnt;
+   reg [SEQ_W-1:0] wr_id_cnt;
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n || state == ST_IDLE) wr_id_cnt <= {ID_W{1'b0}};
+        if (!rst_n || state == ST_IDLE) wr_id_cnt <= {SEQ_W{1'b0}};
         else if (wr_cmd_fire) wr_id_cnt <= wr_id_cnt + 1'b1;
     end
 
@@ -391,26 +400,39 @@ module dma_channel #(
     assign wr_cmd_addr  = wr_addr;
     assign wr_cmd_len   = wr_burst_len;
     assign wr_cmd_size  = `AXI_SIZE_4B;
-    assign wr_cmd_id    = wr_id_cnt;
+    assign wr_cmd_id    = {CH_IDX[N_CH_W-1:0], wr_id_cnt};   // top bits = channel, low bits = seq
 
-    // WR data: feed trực tiếp từ FIFO
-    // WR data active khi AW đã được accepted (tracked bằng beat counter)
-    reg [LEN_W-1:0] wr_beat_cnt;
+   // WR data: feed trực tiếp từ FIFO
+    //
+    // wr_dat_active set khi AW cmd được accepted (wr_cmd_fire),
+    // giữ cho đến khi toàn bộ beats đã gửi (track bằng beat counter).
+    // wr_dat_valid = wr_dat_active & ~fifo_empty
+   reg [LEN_W-1:0] wr_beat_cnt;
     reg             wr_dat_active;
+
+    wire wr_dat_beat = wr_dat_valid & wr_dat_ready;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             wr_dat_active <= 1'b0;
             wr_beat_cnt   <= {LEN_W{1'b0}};
         end else begin
-            if (~wr_dat_active & wr_cmd_valid & wr_cmd_ready) begin
+            if (~wr_dat_active & wr_cmd_fire) begin
+                // AW accepted → bắt đầu gửi data
                 wr_dat_active <= 1'b1;
                 wr_beat_cnt   <= wr_burst_len;
-            end else if (wr_dat_valid & wr_dat_ready) begin
-                if (wr_beat_cnt == {LEN_W{1'b0}})
-                    wr_dat_active <= 1'b0;
-                else
+            end else if (wr_dat_active & wr_dat_beat) begin
+                if (wr_beat_cnt == {LEN_W{1'b0}}) begin
+                    // Beat cuối — pipeline nếu có lệnh tiếp theo cùng cycle
+                    if (wr_cmd_fire) begin
+                        wr_dat_active <= 1'b1;
+                        wr_beat_cnt   <= wr_burst_len;
+                    end else begin
+                        wr_dat_active <= 1'b0;
+                    end
+                end else begin
                     wr_beat_cnt <= wr_beat_cnt - 1'b1;
+                end
             end
         end
     end

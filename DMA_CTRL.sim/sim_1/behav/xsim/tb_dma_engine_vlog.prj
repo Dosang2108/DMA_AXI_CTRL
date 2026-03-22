@@ -1,0 +1,15 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_define.vh" --include "../../../../DMA_CTRL.srcs/sources_1/new" \
+"../../../../DMA_CTRL.srcs/sources_1/new/axi4_master_rd.v" \
+"../../../../DMA_CTRL.srcs/sources_1/new/axi4_master_wr.v" \
+"../../../../DMA_CTRL.srcs/sources_1/new/dma_channel.v" \
+"../../../../DMA_CTRL.srcs/sources_1/new/dma_engine.v" \
+"../../../../DMA_CTRL.srcs/sources_1/new/prim_utils.v" \
+"../../../../DMA_CTRL.srcs/sources_1/new/sync_fifo.v" \
+"../../../../DMA_CTRL.srcs/sim_1/new/dma_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

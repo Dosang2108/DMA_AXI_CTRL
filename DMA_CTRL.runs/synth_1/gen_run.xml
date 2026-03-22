@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xck26-sfvc784-2LV-c" LaunchTime="1773996871" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/dma_soc_wrap.dcp">
   <File Type="PA-TCL" Name="dma_soc_wrap.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="dma_soc_wrap_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="dma_soc_wrap_reports.tcl"/>
   <File Type="RDS-RDS" Name="dma_soc_wrap.vds"/>
   <File Type="RDS-UTIL" Name="dma_soc_wrap_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="dma_soc_wrap_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="dma_soc_wrap.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="dma_soc_wrap_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="dma_soc_wrap_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/dma_define.vh">
@@ -95,9 +92,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024">
-      <Desc>Vivado Synthesis Defaults</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
     <Step Id="synth_design"/>
   </Strategy>
 </GenRun>

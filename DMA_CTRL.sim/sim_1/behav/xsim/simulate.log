@@ -1,0 +1,113 @@
+Time resolution is 1 ps
+
+========================================
+  DMA Engine Testbench v2
+========================================
+
+--- TC1: Mem-to-Mem CH0, 64 bytes ---
+[310000] CH0 started  src=00000000 dst=00000200 len=64 burst=64 periph=0
+[335000]  >AR addr=00000000 len=15 id=0
+[505000]  <R  LAST id=0 resp=00
+[545000]  >AW addr=00000200 len=15 id=0
+[715000]  <B  id=0 resp=00
+[715000]  >W  LAST id=0
+[780000] CH0 DONE  status=00000002 err=00
+  [PASS] TC1: no timeout
+  [PASS] Data match 64 bytes
+  [PASS] TC1: STATUS.done=1
+  [PASS] TC1: STATUS.err=NONE
+  [PASS] TC1: IRQ[0] asserted
+  [PASS] TC1: IRQ[0] cleared after W1C
+
+--- TC2: 4 channels concurrent, 256 bytes ---
+[1190000] CH0 started  src=00000000 dst=00001000 len=256 burst=64 periph=0
+[1215000]  >AR addr=00000000 len=15 id=0
+[1340000] CH1 started  src=00000400 dst=00001400 len=256 burst=64 periph=0
+[1385000]  <R  LAST id=0 resp=00
+[1405000]  >AR addr=00000040 len=15 id=1
+[1425000]  >AW addr=00001000 len=15 id=0
+[1490000] CH2 started  src=00000800 dst=00001800 len=256 burst=64 periph=0
+[1575000]  <R  LAST id=1 resp=00
+[1595000]  >AR addr=00000400 len=15 id=4
+[1595000]  <B  id=0 resp=00
+[1595000]  >W  LAST id=1
+[1615000]  >AW addr=00001040 len=15 id=1
+[1640000] CH3 started  src=00000c00 dst=00001c00 len=256 burst=64 periph=0
+[1765000]  <R  LAST id=4 resp=00
+[1785000]  >AR addr=00000800 len=15 id=8
+[1955000]  <R  LAST id=8 resp=00
+[1975000]  >AR addr=00000c00 len=15 id=12
+[2145000]  <R  LAST id=12 resp=00
+[2185000]  >AR addr=00000080 len=15 id=2
+[2315000]  <B  id=1 resp=00
+[2315000]  >W  LAST id=2
+[2335000]  >AW addr=00001080 len=15 id=2
+[2355000]  <R  LAST id=2 resp=00
+[2001660000] CH0 TIMEOUT!
+  [FAIL] TC2: no timeout
+[4001680000] CH1 TIMEOUT!
+  [FAIL] TC2: no timeout
+[6001700000] CH2 TIMEOUT!
+  [FAIL] TC2: no timeout
+[6001730000] CH3 DONE  status=0000000e err=11
+  [PASS] TC2: no timeout
+    MISMATCH[16] src=a5000010 dst=a5000000
+    MISMATCH[17] src=a5000011 dst=a5000001
+    MISMATCH[18] src=a5000012 dst=a5000002
+    MISMATCH[19] src=a5000013 dst=a5000003
+  [FAIL] 48/64 words wrong
+    MISMATCH[0] src=a5000000 dst=dead0500
+    MISMATCH[1] src=a5000001 dst=dead0501
+    MISMATCH[2] src=a5000002 dst=dead0502
+    MISMATCH[3] src=a5000003 dst=dead0503
+  [FAIL] 64/64 words wrong
+    MISMATCH[0] src=a5000000 dst=dead0600
+    MISMATCH[1] src=a5000001 dst=dead0601
+    MISMATCH[2] src=a5000002 dst=dead0602
+    MISMATCH[3] src=a5000003 dst=dead0603
+  [FAIL] 64/64 words wrong
+    MISMATCH[0] src=a5000000 dst=dead0700
+    MISMATCH[1] src=a5000001 dst=dead0701
+    MISMATCH[2] src=a5000002 dst=dead0702
+    MISMATCH[3] src=a5000003 dst=dead0703
+  [FAIL] 64/64 words wrong
+
+--- TC3: IRQ and INT_STAT W1C ---
+[6001735000]  <R  LAST id=2 resp=00
+[6002070000] CH0 started  src=00000000 dst=00000200 len=64 burst=64 periph=0
+[6002095000]  >AR addr=00000000 len=15 id=0
+[6002265000]  <R  LAST id=0 resp=00
+[6002305000]  >AW addr=00000200 len=15 id=0
+[6002475000]  <B  id=0 resp=00
+[6002475000]  >W  LAST id=0
+[6002540000] CH0 DONE  status=00000002 err=00
+  [PASS] TC3: IRQ[0] asserted
+  [PASS] TC3: INT_STAT.done=1
+  [PASS] TC3: INT_STAT.done cleared
+  [PASS] TC3: IRQ[0] deasserted
+
+--- TC4: Peripheral triggered ---
+[6002970000] CH0 started  src=00000000 dst=00000200 len=64 burst=64 periph=1
+  [PASS] TC4: channel active
+  [PASS] TC4: not done (waiting periph)
+[6003290000] TC4: asserting periph_req[1]
+[6003315000]  >AR addr=00000000 len=15 id=0
+[6003315000] TC4: periph_clr[1] seen
+[6003485000]  <R  LAST id=0 resp=00
+[6003525000]  >AW addr=00000200 len=15 id=0
+[6003695000]  <B  id=0 resp=00
+[6003695000]  >W  LAST id=0
+[6003760000] CH0 DONE  status=00000002 err=00
+  [PASS] TC4: completed after periph_req
+  [PASS] Data match 64 bytes
+
+--- TC5: AXI SLVERR injection ---
+[6004070000] CH0 started  src=00000000 dst=00000200 len=128 burst=64 periph=0
+[6004095000]  >AR addr=00000000 len=15 id=0
+[6004265000]  <R  LAST id=0 resp=10
+[6004285000]  >AR addr=00000040 len=15 id=1
+[6004305000]  >AW addr=00000200 len=15 id=0
+  TC5 STATUS=00000005 err=01
+  [PASS] TC5: err!=NONE after SLVERR
+
+--- TC6: AW timeout (40

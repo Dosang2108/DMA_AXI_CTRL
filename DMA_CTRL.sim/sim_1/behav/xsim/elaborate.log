@@ -1,0 +1,85 @@
+Vivado Simulator v2024.1
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: D:/xilinx/Vivado/2024.1/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_dma_engine_behav xil_defaultlib.tb_dma_engine xil_defaultlib.glbl -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_engine.v" Line 35. Module dma_engine(TIMEOUT_W=12,APB_ADDR_W=14) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(CH_IDX=1,TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(CH_IDX=2,TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(CH_IDX=3,TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 144. Module rr_arbiter_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=3) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/axi4_master_rd.v" Line 38. Module axi4_master_rd(TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DATA_W=4,DEPTH=4,AFULL_TH=1,AEMPTY_TH=1,OUTREG=0,PTR_W=2) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 56. Module timeout_cnt(CNT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 144. Module rr_arbiter_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=3) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/axi4_master_wr.v" Line 31. Module axi4_master_wr(TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DATA_W=8,DEPTH=4,AFULL_TH=1,AEMPTY_TH=1,OUTREG=0,PTR_W=2) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DATA_W=4,DEPTH=4,AFULL_TH=1,AEMPTY_TH=1,OUTREG=0,PTR_W=2) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 56. Module timeout_cnt(CNT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 56. Module timeout_cnt(CNT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_engine.v" Line 35. Module dma_engine(TIMEOUT_W=12,APB_ADDR_W=14) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(CH_IDX=1,TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(CH_IDX=2,TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/dma_channel.v" Line 38. Module dma_channel(CH_IDX=3,TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DEPTH=16,AFULL_TH=4,AEMPTY_TH=1,OUTREG=0,PTR_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 144. Module rr_arbiter_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=3) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/axi4_master_rd.v" Line 38. Module axi4_master_rd(TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DATA_W=4,DEPTH=4,AFULL_TH=1,AEMPTY_TH=1,OUTREG=0,PTR_W=2) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 56. Module timeout_cnt(CNT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 144. Module rr_arbiter_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=3) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux(DATA_W=4) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 111. Module onehot_mux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/axi4_master_wr.v" Line 31. Module axi4_master_wr(TIMEOUT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DATA_W=8,DEPTH=4,AFULL_TH=1,AEMPTY_TH=1,OUTREG=0,PTR_W=2) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/sync_fifo.v" Line 26. Module sync_fifo(DATA_W=4,DEPTH=4,AFULL_TH=1,AEMPTY_TH=1,OUTREG=0,PTR_W=2) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 56. Module timeout_cnt(CNT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "D:/GITHUB_PROJECT/DMA_AXI_CTRL/DMA_CTRL.srcs/sources_1/new/prim_utils.v" Line 56. Module timeout_cnt(CNT_W=12) doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.sync_fifo(DEPTH=16,AFULL_TH=4,AE...
+Compiling module xil_defaultlib.dma_channel(TIMEOUT_W=12)
+Compiling module xil_defaultlib.dma_channel(CH_IDX=1,TIMEOUT_W=1...
+Compiling module xil_defaultlib.dma_channel(CH_IDX=2,TIMEOUT_W=1...
+Compiling module xil_defaultlib.dma_channel(CH_IDX=3,TIMEOUT_W=1...
+Compiling module xil_defaultlib.rr_arbiter_default
+Compiling module xil_defaultlib.onehot_mux
+Compiling module xil_defaultlib.onehot_mux(DATA_W=4)
+Compiling module xil_defaultlib.onehot_mux(DATA_W=3)
+Compiling module xil_defaultlib.sync_fifo(DATA_W=4,DEPTH=4,AFULL...
+Compiling module xil_defaultlib.timeout_cnt(CNT_W=12)
+Compiling module xil_defaultlib.axi4_master_rd(TIMEOUT_W=12)
+Compiling module xil_defaultlib.sync_fifo(DATA_W=8,DEPTH=4,AFULL...
+Compiling module xil_defaultlib.axi4_master_wr(TIMEOUT_W=12)
+Compiling module xil_defaultlib.dma_engine(TIMEOUT_W=12,APB_ADDR...
+Compiling module xil_defaultlib.tb_dma_engine
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_dma_engine_behav
