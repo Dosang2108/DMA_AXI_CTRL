@@ -83,7 +83,7 @@ module dma_channel #(
     output wire [2:0]        rd_cmd_size,
     output wire [ID_W-1:0]   rd_cmd_id,
 
-    //  RD data (← axi4_master_rd) 
+    //  RD data (<- axi4_master_rd) 
     input  wire                    rd_dat_valid,
     output wire                    rd_dat_ready,
     input  wire [`AXI_DATA_W-1:0]  rd_dat_data,
@@ -94,7 +94,7 @@ module dma_channel #(
     input  wire [ID_W-1:0]   rd_rsp_id,
     input  wire [1:0]        rd_rsp_err,
 
-    //  WR command (→ axi4_master_wr) ─
+    //  WR command (<- axi4_master_wr) ─
     output wire              wr_cmd_valid,
     input  wire              wr_cmd_ready,
     output wire [ADDR_W-1:0] wr_cmd_addr,
@@ -102,7 +102,7 @@ module dma_channel #(
     output wire [2:0]        wr_cmd_size,
     output wire [ID_W-1:0]   wr_cmd_id,
 
-    //  WR data (→ axi4_master_wr) 
+    //  WR data (<- axi4_master_wr) 
     output wire                    wr_dat_valid,
     input  wire                    wr_dat_ready,
     output wire [`AXI_DATA_W-1:0]  wr_dat_data,
@@ -218,7 +218,7 @@ module dma_channel #(
     // periph_clr: pulse 1 cycle sau mỗi rd burst
     // Bit trong periph_clr[31:1] tương ứng periph_num 1..31
     // periph_clr[periph_num-1] = 1 khi clr periph thứ periph_num
-    // Khi periph_num=0 (memory) → không clr gì cả
+    // Khi periph_num=0 (memory) <- không clr gì cả
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             periph_clr <= {31{1'b0}};
@@ -382,7 +382,7 @@ module dma_channel #(
     end
 
     // Số beats cần thiết cho burst hiện tại
-    // wr_burst_len là [LEN_W-1:0], +1 → tối đa LEN_W bits cần +1 = LEN_W+1 bits
+    // wr_burst_len là [LEN_W-1:0], +1 <- tối đa LEN_W bits cần +1 = LEN_W+1 bits
     // fifo_count là [FIFO_CNT_W-1:0]
     // Để so sánh an toàn, mở rộng cả hai về max(FIFO_CNT_W, LEN_W+1) bits
     localparam CMP_W = (FIFO_CNT_W > LEN_W) ? FIFO_CNT_W : LEN_W + 1;
@@ -418,7 +418,7 @@ module dma_channel #(
             wr_beat_cnt   <= {LEN_W{1'b0}};
         end else begin
             if (~wr_dat_active & wr_cmd_fire) begin
-                // AW accepted → bắt đầu gửi data
+                // AW accepted <- bắt đầu gửi data
                 wr_dat_active <= 1'b1;
                 wr_beat_cnt   <= wr_burst_len;
             end else if (wr_dat_active & wr_dat_beat) begin

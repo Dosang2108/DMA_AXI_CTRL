@@ -512,10 +512,7 @@ module dma_engine #(
     endgenerate
 
     // rd_dout_ready: chỉ assert khi kênh ĐÍCH (khớp dout_id) có FIFO ready.
-    // BUG FIX: dùng `|(valid & ready)` thay vì `|ready`.
-    // Nếu dùng `|ch_rd_dat_ready`, RREADY=1 khi BẤT KỲ kênh nào ready —
-    // ngay cả khi FIFO của kênh đích đầy → beat bị chấp nhận bởi AXI slave
-    // nhưng KHÔNG được ghi vào FIFO đúng → mất data.
+
     assign rd_dout_ready = |(ch_rd_dat_valid & ch_rd_dat_ready);
     wire [N_CH-1:0] wr_grant_pulse;  // registered output từ rr_arbiter
 
