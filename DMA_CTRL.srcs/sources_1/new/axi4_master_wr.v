@@ -82,10 +82,7 @@ module axi4_master_wr #(
     output wire              BREADY
 );
 
-    // --------------------------------------------------------
     // localparam
-    // function phải khai báo TRƯỚC localparam (Verilog-2001)
-    // --------------------------------------------------------
     function integer clog2_fn;
         input integer v;
         integer i;

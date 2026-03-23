@@ -169,22 +169,28 @@ module rr_arbiter #(
     wire [2*N-1:0] req_dbl = {req, req};
 
     // Tìm bit 1 đầu tiên trong req_dbl bắt đầu từ vị trí last_grant+1
+    // BUG FIX: dùng cờ `found` thay vì sentinel value.
+    // Sentinel = {(N_W+1){1'b1}} = 2*N-1 cho N lũy thừa 2, trùng với
+    // index hợp lệ cuối cùng trong req_dbl → kênh N-1 bị bỏ qua khi
+    // last_grant = N-1 và chỉ kênh N-1 đang request.
     reg  [N_W:0]   grant_idx_dbl;  // index trong req_dbl
     reg  [N-1:0]   grant_next;
+    reg            found;
 
     integer k;
     always @(*) begin
-        grant_idx_dbl = {(N_W+1){1'b1}};   // sentinel: không tìm thấy
+        grant_idx_dbl = {(N_W+1){1'b0}};
         grant_next    = {N{1'b0}};
+        found         = 1'b0;
         for (k = 0; k < N; k = k + 1) begin
             // kiểm tra từ (last_grant+1) đến (last_grant+N)
-            if (req_dbl[last_grant + 1 + k] &&
-                grant_idx_dbl == {(N_W+1){1'b1}}) begin
+            if (!found && req_dbl[last_grant + 1 + k]) begin
                 grant_idx_dbl = last_grant + 1 + k;
+                found         = 1'b1;
             end
         end
         // Chuyển index trong req_dbl về index thực [0..N-1]
-        if (grant_idx_dbl != {(N_W+1){1'b1}})
+        if (found)
             grant_next[grant_idx_dbl % N] = 1'b1;
     end
 

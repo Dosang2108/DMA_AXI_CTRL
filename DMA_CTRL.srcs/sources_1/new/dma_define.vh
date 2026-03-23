@@ -9,9 +9,7 @@
 `ifndef DMA_DEFINES_VH
 `define DMA_DEFINES_VH
 
-// ------------------------------------------------------------
-// AXI4 bus (fixed 32-bit data width theo yêu cầu)
-// ------------------------------------------------------------
+// AXI4 bus
 `define AXI_DATA_W   32          // data width — cố định cho thư viện này
 `define AXI_STRB_W   4           // = AXI_DATA_W/8
 `define AXI_BYTES    4           // số byte mỗi beat = AXI_DATA_W/8
@@ -27,18 +25,14 @@
 `define AXI_RESP_SLVERR  2'b10
 `define AXI_RESP_DECERR  2'b11
 
-// ------------------------------------------------------------
 // DMA channel error codes (2-bit, field trong STATUS register)
-// ------------------------------------------------------------
 `define DMA_ERR_NONE    2'b00
 `define DMA_ERR_SLVERR  2'b01
 `define DMA_ERR_DECERR  2'b10
 `define DMA_ERR_TIMEOUT 2'b11
 
-// ------------------------------------------------------------
 // Register offsets (mỗi kênh chiếm 0x100 byte)
 // Dùng cùng địa chỉ cho mọi project — không thay đổi
-// ------------------------------------------------------------
 `define REG_SRC_ADDR   8'h00
 `define REG_DST_ADDR   8'h04
 `define REG_LEN        8'h08     // số byte cần transfer [15:0]
@@ -51,9 +45,7 @@
 // Global control (offset từ engine base, không phải channel base)
 `define REG_GLOBAL_CTRL 12'hF00  // [0]=soft_rst
 
-// ------------------------------------------------------------
 // Misc
-// ------------------------------------------------------------
 `define DMA_CH_STRIDE  12        // bits: mỗi kênh cách nhau 2^12 = 0x1000
                                   // paddr[11+N_CH_W : 12] = channel index
 

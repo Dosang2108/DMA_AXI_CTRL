@@ -175,9 +175,9 @@ module dma_engine #(
     end
     // Combine với hard rst_n: nếu một trong hai active → reset kênh
     wire ch_rst_n = rst_n & ~soft_rst_r;
-    always @(posedge clk or negedge rst_n)
+    always @(posedge clk or negedge rst_n) begin
         apb_pready <= !rst_n ? 1'b0 : (apb_psel & apb_penable);
-
+    end
     assign apb_pslverr = 1'b0;
 
     // APB write
@@ -511,8 +511,12 @@ module dma_engine #(
         end
     endgenerate
 
-    // rd_dout_ready: OR của kênh đang nhận
-    assign rd_dout_ready = |ch_rd_dat_ready;
+    // rd_dout_ready: chỉ assert khi kênh ĐÍCH (khớp dout_id) có FIFO ready.
+    // BUG FIX: dùng `|(valid & ready)` thay vì `|ready`.
+    // Nếu dùng `|ch_rd_dat_ready`, RREADY=1 khi BẤT KỲ kênh nào ready —
+    // ngay cả khi FIFO của kênh đích đầy → beat bị chấp nhận bởi AXI slave
+    // nhưng KHÔNG được ghi vào FIFO đúng → mất data.
+    assign rd_dout_ready = |(ch_rd_dat_valid & ch_rd_dat_ready);
     wire [N_CH-1:0] wr_grant_pulse;  // registered output từ rr_arbiter
 
     rr_arbiter #(.N(N_CH)) u_wr_arb (
@@ -530,22 +534,25 @@ module dma_engine #(
             wr_grant_r <= {N_CH{1'b0}};
         end else begin
             if (wr_cmd_fire_top) begin
-                // Handshake xong: capture grant tiếp theo ngay
-                // (arbiter đã advance last_grant, wr_grant_pulse = next channel)
+                // Handshake xong: advance đến kênh tiếp theo
                 wr_grant_r <= wr_grant_pulse;
-            end else if (~|wr_grant_r) begin
-                // Rảnh: capture grant mới khi có request
+            end else if (wr_cmd_ready_top & ~|wr_dat_grant_r & ~wr_cmd_valid_top) begin
                 wr_grant_r <= wr_grant_pulse;
             end
-            // else: giữ nguyên
+            // else: giữ nguyên (đang chờ AWREADY, hoặc kênh đang phát W data)
         end
     end
 
     wire [N_CH-1:0] wr_grant = wr_grant_r;
 
+    // wr_burst_gate: cho phép AW mới chỉ khi không có W burst đang chạy,
+    // HOẶC đúng cycle WLAST (pipeline). Dùng chung cho CẢ ch_wr_cmd_ready
+    // VÀ wr_cmd_valid_gated để dma_channel và u_wr_master luôn đồng thuận.
+    wire wr_burst_gate = ~|wr_dat_grant_r | wr_wlast_done;
+
     generate
         for (gi = 0; gi < N_CH; gi = gi + 1) begin : gen_wr_ready
-            assign ch_wr_cmd_ready[gi] = wr_grant[gi] & wr_cmd_ready_top;
+            assign ch_wr_cmd_ready[gi] = wr_grant[gi] & wr_cmd_ready_top & wr_burst_gate;
         end
     endgenerate
 
@@ -578,13 +585,13 @@ module dma_engine #(
         if (!ch_rst_n) begin
             wr_dat_grant_r <= {N_CH{1'b0}};
         end else begin
-            if (wr_wlast_done & aw_accepted) begin
+            if (wr_wlast_done & wr_cmd_fire_top) begin
                 // Pipeline: burst kết thúc, AW mới accepted cùng cycle
-                wr_dat_grant_r <= aw_ch_onehot;
+                wr_dat_grant_r <= wr_grant;
             end else if (wr_wlast_done) begin
                 wr_dat_grant_r <= {N_CH{1'b0}};
-            end else if (~|wr_dat_grant_r & aw_accepted) begin
-                wr_dat_grant_r <= aw_ch_onehot;
+            end else if (~|wr_dat_grant_r & wr_cmd_fire_top) begin
+                wr_dat_grant_r <= wr_grant;
             end
             // else: giữ nguyên cho đến WLAST
         end
@@ -592,8 +599,6 @@ module dma_engine #(
 
     // Sel: W phase dùng wr_dat_grant_r; giữa các burst dùng wr_grant
     wire [N_CH-1:0] wr_dat_sel = (|wr_dat_grant_r) ? wr_dat_grant_r : wr_grant;
-
-
     // WR data mux: từ kênh đang active trong W phase
     wire [`AXI_DATA_W-1:0] mux_wr_data;
     onehot_mux #(.DATA_W(`AXI_DATA_W), .N(N_CH)) mux_wdata (
@@ -602,8 +607,11 @@ module dma_engine #(
     // Same fix as rd_cmd_valid_top: gate with actual channel valid.
     wire wr_cmd_valid_top = |(wr_grant & ch_wr_cmd_valid);
     wire wr_cmd_ready_top;
+    wire wr_cmd_valid_gated = wr_cmd_valid_top & wr_burst_gate;
+
     // wr_cmd_fire_top: forward-declared above, driven here
-    assign wr_cmd_fire_top = wr_cmd_valid_top & wr_cmd_ready_top;
+    // Dùng wr_cmd_valid_gated thay vì wr_cmd_valid_top
+    assign wr_cmd_fire_top = wr_cmd_valid_gated & wr_cmd_ready_top;
     wire wr_din_valid = |(ch_wr_dat_valid & wr_dat_sel);
     wire wr_din_ready;
     wire wr_rsp_valid_top;
@@ -627,7 +635,7 @@ module dma_engine #(
     ) u_wr_master (
         .clk         (clk),
         .rst_n       (ch_rst_n),   // soft reset clears internal state
-        .cmd_valid   (wr_cmd_valid_top),
+        .cmd_valid   (wr_cmd_valid_gated),   // FIX: dùng gated version
         .cmd_ready   (wr_cmd_ready_top),
         .cmd_addr    (mux_wr_addr),
         .cmd_len     (mux_wr_len),

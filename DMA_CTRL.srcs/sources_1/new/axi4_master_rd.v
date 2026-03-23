@@ -119,7 +119,7 @@ module axi4_master_rd #(
         .clk         (clk),
         .rst_n       (rst_n),
         .wr_en       (cmd_fifo_push),
-        .wr_data     (cmd_id),        // lưu cmd_id khi gửi AR
+        .wr_data     (ARID),        // lưu cmd_id khi gửi AR
         .rd_en       (cmd_fifo_pop),
         .rd_data     (cmd_fifo_rdata),
         .full        (cmd_fifo_full),
@@ -161,8 +161,7 @@ module axi4_master_rd #(
     assign dout_valid = RVALID;
     assign dout_data  = RDATA;
     assign dout_last  = RLAST;
-    // dout_id: lấy từ FIFO (0-latency, available ngay khi RVALID)
-    assign dout_id    = cmd_fifo_empty ? {ID_W{1'b0}} : cmd_fifo_rdata;
+    assign dout_id    = RID;
 
     // Response: 1 cycle sau khi burst kết thúc
     reg              rsp_valid_r;
@@ -177,7 +176,7 @@ module axi4_master_rd #(
         end else begin
             rsp_valid_r <= cmd_fifo_pop;
             if (cmd_fifo_pop) begin
-                rsp_id_r  <= cmd_fifo_rdata;
+                rsp_id_r  <= RID;
                 rsp_err_r <= RRESP;
             end
         end

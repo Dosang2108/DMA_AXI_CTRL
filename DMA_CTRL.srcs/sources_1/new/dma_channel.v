@@ -197,9 +197,9 @@ module dma_channel #(
         end
     end
 
-   // Token counter — rate-match RD vs WR để tránh FIFO overflow
+    // Token counter — rate-match RD vs WR để tránh FIFO overflow
     // Mỗi token = 1 phép RD burst chưa được WR xử lý
-   reg [TOKEN_W-1:0] tokens;
+    reg [TOKEN_W-1:0] tokens;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n || (state == ST_IDLE && !start))
             tokens <= cfg_tokens;

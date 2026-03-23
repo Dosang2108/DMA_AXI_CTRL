@@ -427,14 +427,6 @@ module tb_dma_engine;
     endtask
 
     // --------------------------------------------------------
-    // VCD
-    // --------------------------------------------------------
-    initial begin
-        $dumpfile("tb_dma_engine.vcd");
-        $dumpvars(0, tb_dma_engine);
-    end
-
-    // --------------------------------------------------------
     // AXI monitor
     // --------------------------------------------------------
     always @(posedge clk) begin
@@ -577,9 +569,7 @@ module tb_dma_engine;
         $display("  TC5 STATUS=%08h err=%02b", rd_val, rd_val[3:2]);
         chk(rd_val[3:2]!=2'b00, "TC5: err!=NONE after SLVERR");
 
-        // ================================================
         // TC6: AW timeout
-        // ================================================
         $display("\n--- TC6: AW timeout (4096 cycles) ---");
         do_reset;
         fill_src(32'h0, 64);
@@ -592,9 +582,7 @@ module tb_dma_engine;
                                 "TC6: done or TIMEOUT_ERR");
         aw_stall = 1'b0;
 
-        // ================================================
         // TC7: Soft reset
-        // ================================================
         $display("\n--- TC7: Soft reset ---");
         do_reset;
         fill_src(32'h0, 256);
@@ -602,10 +590,6 @@ module tb_dma_engine;
         repeat(20) @(posedge clk);
         $display("[%0t] TC7: soft reset", $time);
         apb_write(`REG_GLOBAL_CTRL, 32'h1);
-        // FIX TC7: wait long enough for any in-flight AXI transactions to complete.
-        // Soft reset is 1-cycle; axi4_master_rd may still have a queued burst that
-        // fires after reset. 200 cycles > max burst latency (16 beats + overhead).
-        // Also wait for ARVALID and AWVALID to deassert (AXI idle).
         repeat(200) @(posedge clk);
         // Drain any spurious IRQ from the aborted transfer
         ch_write(0, `REG_INT_STAT, 32'h3);
